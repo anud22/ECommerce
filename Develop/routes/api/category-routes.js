@@ -10,6 +10,10 @@ router.get('/', async (req, res) => {
     const categoriesData = await Category.findAll({
       include: [{ model: Product }],
     });
+    if (!categoriesData) {
+      res.status(404).json({ message: 'No category found' });
+      return;
+    }
     res.status(200).json(categoriesData);
   } catch (err) {
     res.status(500).json(err);
@@ -25,7 +29,7 @@ router.get('/:id', async (req, res) => {
     });
 
     if (!categoryData) {
-      res.status(404).json({ message: 'No category card found with that id!' });
+      res.status(404).json({ message: 'No category found with that id!' });
       return;
     }
     res.status(200).json(categoryData);
